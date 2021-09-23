@@ -1,0 +1,61 @@
+1. String k-v 单个key最大能存512 MB，约等于多个文字呢?
+增(修改)：set key value  例子：set adminName 'zhangsan'
+增(修改)：set key value  例子：set adminName 'lisi' (覆盖)
+set adminName zhangsan
+set adminName lisi
+get adminName 可视化界面一下
+查：get key              例子：get adminName
+查询所有的key:  keys *    例子：keys *
+删除单个key: del key      例子：del adminName
+String 的 特有命令：
+(重要的)过期时间：setex 在存是时候就直接给定一个过期时间，验证码就用它  setex code 60 242  先时间，后是value
+(重要 )自增（减）：incr 场景：抖音点赞，产品的热销排行，自增的值一定是数字
+(重要 )自减：decr key 场景：抖音点赞，产品的热销排行，自增的值一定是数字
+(重要)定量增：incrby     incrby mycode 5
+(重要)定量减：decrby     decrby mycode 5
+批量增：mset key1 value key2 value
+批量删：mget key1  key2
+字符串截取：getrange key start end   例子：getrange game 0 -1
+先查再存：getset  格式：getset key value
+将给定的key值设置value ，并返回key的旧值  应用场景：工资
+字符串的长度：strlen key 的长度，不存在的长度是0
+字符串的追加：append key value ,追加的位置是 value 的末尾
+
+
+
+//通用命令
+1、DUMP  给定key中的值进行 序列化：返回值是 序列化后的值                 例子：dump adminName
+2、exists key是否存在， 很常用！！返回值是1 或者 0,1代表存在 0代表不存在  例子：exists adminName
+3、exprire 给key值 做一个过期时间 ，写的值是过期的秒数  例子:set phoneCode 3343 ,expire phoneCode 60
+                                    到期之后，key自动删除，这个很常见
+4、ttl 查询还剩余多长时间 过期 秒为单位  应用场景 ： 1、订单15分钟有效 2、考试
+5、persist 移除key的过期时间，将 key保持为持久状态。  应用场景： 1)开票
+6、rename 更改key值，这个不常用！！！ 自己测试
+7、renamenx 当key 新的可以 不存在时，改名为 新名字 了解
+8、type key 返回key的数据类型----5种  type phoneCode
+9. randomkey 随机出key  抽奖常用的,点名 随机点名程序，被点到的人 移除去
+
+
+
+二、Hash 哈希 类型 适合存储对象
+增(单个)：hset 例子：hset food name 'apple'
+删除 : hdel food name
+批量增 (多个) ：hmset food name 'apple'  color 'red'
+批量查：hmget human name age
+查： hget  例子：hget food age
+查所有key：hkeys food
+查所有的key he value :hgetall human
+hash 字段的自增:hincrby human age 10
+key person value 一堆 k v 组合
+hash 数据类型的遍历：hscan (不常用)
+
+
+
+三、list ----  是一个双端队列结构  先进后出 排序是按照 插入的顺序排序
+比如： 猪八戒 孙悟空  唐曾    朝阳    刘备 张飞 关羽
+左边增：lpush key xxxx
+右边增：rpush key xxxx
+遍历：lrange key 0 -1
+左边删除：lpop key (按照顺序一个一个删除 )
+右边删除：rpop key(按照顺序一个一个删除 )
+插入：linsert key before ‘刘备’ 放 ‘朝阳’
